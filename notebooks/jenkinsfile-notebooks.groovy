@@ -64,17 +64,14 @@ try {
                 [$class: "StringBinding", credentialsId: "databricksToken", variable: "databricksToken" ]
             ]){
                 try{
-                    
                     sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list")
-
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
                     """
                     def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
-                                props.each{ nombre ->
-                                    steps.echo """
-                                    Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}
-                                    """
+                    props.each{ nombre ->
+                        steps.echo """Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}"""
+                        sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON notebooks/${nombre.nombre} ${nombre.ruta}/${nombre.nombre}")
                     }
 
                 }catch(Exception e){

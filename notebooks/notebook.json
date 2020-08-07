@@ -1,14 +1,14 @@
 [
     {
-        "nombre": "creacion.py",
-        "ruta": "/test/victor"
+        "nombre": "Crear_Eliminar.py",
+        "ruta": "/test/data"
     },
     {
-        "nombre": "ventas.py",
-        "ruta": "/shared/victor"
+        "nombre": "CU_20200415_CARDS_1ERENVIO.py",
+        "ruta": "/Shared/victor"
     },
     {
-        "nombre": "data.py",
-        "ruta": "/shared/"
+        "nombre": "CU_ANALYTICS_20200417_CARDS_1ERENVIO.py",
+        "ruta": "/Shared/ventas"
     }
 ]
