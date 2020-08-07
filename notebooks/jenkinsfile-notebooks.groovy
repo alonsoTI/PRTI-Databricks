@@ -56,7 +56,7 @@ try {
         steps.echo """
         ******** Importando notebooks en Databricks DEV********
         """
-        def props = readJSON file: 'notebooks/notebook.json' returnPojo: true
+        def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
                     props.each{ nombre, ruta ->
                         steps.echo """
                         Cargando notebook ${nombre.nombre} a la ruta ${ruta}
