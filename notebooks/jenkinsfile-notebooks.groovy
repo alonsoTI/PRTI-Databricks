@@ -63,10 +63,12 @@ try {
             ]){
                 try{
                     
-                     sh("cat notebooks/notebook.json")
-                     def props = readJSON text: '{ "key": "value" }'
-                        assert props['key'] == 'value'
-                        assert props.key == 'value'
+                     
+                     def props = readJSON file: 'notebooks/notebook.json'
+                    steps.echo """
+                    ${props.nombre}
+                    ${props.ruta}
+                    """
 
                 }catch(Exception e){
                 throw e;
