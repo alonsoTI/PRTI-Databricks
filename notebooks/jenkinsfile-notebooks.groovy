@@ -62,24 +62,24 @@ try {
             ]){
                 try{
                     sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list")
-
+                    /*
                     steps.echo """
                     ******** Validando existencia de directorios********
                     """
-
-                    def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print \$2 \$NF}'", returnStdout: true)
-                    
-                    if (dir.error_code == "RESOURCE_DOES_NOT_EXIST"){
-                        sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace mkdirs /hola")
+                    def dirs = readJSON file: 'notebooks/notebook.json', returnPojo: true
+                    props.each{ nombre ->
+                        steps.echo """ Ruta:  ${nombre.ruta}"""
+                        def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list ${nombre.ruta} | awk '{ print \$2 \$NF}'", returnStdout: true)
+                        if (dir.error_code == "RESOURCE_DOES_NOT_EXIST"){
+                            steps.echo """ La ruta:  ${nombre.ruta} no existe, ejecutando creación: """
+                            sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace mkdirs ${nombre.ruta}")
+                        }else{
+                            steps.echo """ La ruta:  ${nombre.ruta} si existe"""
+                        }
                     }
-
-                    /*
-                    steps.echo """${dir}"""
-                    def dir2 = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print \$2 \$NF}'", returnStdout: true)
-                    steps.echo """${dir2}"""
                     */
+                   
                     
-                    /*
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
                     """
@@ -88,7 +88,7 @@ try {
                         steps.echo """Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}"""
                         sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON notebooks/${nombre.nombre} ${nombre.ruta}/${nombre.nombre} -o")
                     }
-                    */
+                    
                 }catch(Exception e){
                 throw e;
                 }
