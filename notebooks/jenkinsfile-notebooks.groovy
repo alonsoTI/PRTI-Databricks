@@ -56,24 +56,37 @@ try {
       }
 
       stage("Deploy to " +deploymentEnvironment){
-
-        
-
         steps.withCredentials([
                 [$class: "StringBinding", credentialsId: "tenantId", variable: "tenantId" ],
                 [$class: "StringBinding", credentialsId: "databricksToken", variable: "databricksToken" ]
             ]){
                 try{
                     sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list")
+
+                    steps.echo """
+                    ******** Validando existencia de directorios********
+                    """
+                    def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
+                    props.each{ nombre ->
+                        
+                    }
+
+                    steps.echo """Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}"""
+                    dir = readJSON text: sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON test.py /test/test.py | awk '{ print $2 $NF}'")
+                    steps.echo """${dir.error_code}"""
+                    dir2 = readJSON text: sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print $2 $NF}'")
+                    steps.echo """${dir2.error_code}"""
+
+                    /*
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
                     """
                     def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
                     props.each{ nombre ->
                         steps.echo """Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}"""
-                        sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON notebooks/${nombre.nombre} ${nombre.ruta}/${nombre.nombre}")
+                        sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON notebooks/${nombre.nombre} ${nombre.ruta}/${nombre.nombre} -o")
                     }
-
+                    */
                 }catch(Exception e){
                 throw e;
                 }
