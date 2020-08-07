@@ -6,8 +6,9 @@ def appVersion              = "2.0";
 def AzureResourceName       = "prueba";
 def azureWebApp             = "demo-app-inct";
 def dockerRegistryUrl       = "vlliuyadesa.azurecr.io";
-def imageTag                = "${dockerRegistryUrl}/${appName}:${appVersion}";
-def databricksHost          = "https://eastus2.azuredatabricks.net";
+def imageTag                = "vlliuyadesa.azurecr.io/databricks-cli:1.2";
+def databricksHost          = "https://adb-5686748607945778.18.azuredatabricks.net/";
+def databricksToken2        = "dapi3876d50d470fe89da3d163d33757ec58";
 def databricksContainer     = "";
 
 /* Mail configuration*/
@@ -61,15 +62,18 @@ try {
             ]){
                 try{
                     
+                    databricksContainer = steps.sh(script:"docker run -d -it -v ${env.WORKSPACE}:/tmp/databricks -e DATABRICKS_HOST=${databricksHost} -e DATABRICKS_TOKEN=${env.databricksToken2} ${imageTag}",returnStdout:true).trim();
+                    steps.sh "docker exec ${databricksContainer} databricks workspace list";
+
                     steps.echo """
-        ******** Importando notebooks en Databricks DEV********
-        """
-        def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
-                    props.each{ nombre ->
-                        steps.echo """
-                        Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}
-                        """
-        }
+                    ******** Importando notebooks en Databricks DEV********
+                    """
+                    def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
+                                props.each{ nombre ->
+                                    steps.echo """
+                                    Cargando notebook ${nombre.nombre} a la ruta ${nombre.ruta}
+                                    """
+                    }
 
                 }catch(Exception e){
                 throw e;
