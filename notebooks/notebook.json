@@ -1,4 +1,14 @@
-{
-    "nombre":"creacion.py",
-    "ruta":"/test/victor"
-}
+[
+    {
+        "nombre": "creacion.py",
+        "ruta": "/test/victor"
+    },
+    {
+        "nombre": "ventas.py",
+        "ruta": "/shared/victor"
+    },
+    {
+        "nombre": "data.py",
+        "ruta": "/shared/"
+    }
+]
