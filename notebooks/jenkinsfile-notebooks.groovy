@@ -70,7 +70,7 @@ try {
                     def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print \$2 \$NF}'", returnStdout: true)
                     
                     if (dir.error_code == "RESOURCE_DOES_NOT_EXIST"){
-                        h("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace mkdirs /hola")
+                        sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace mkdirs /hola")
                     }
 
                     /*
