@@ -67,7 +67,7 @@ try {
                     ******** Validando existencia de directorios********
                     """
 
-                    def dir = sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON test.py /test/test.py | awk '{ print \$2 \$NF}'", returnStdout: true)
+                    def dir = sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print \$2 \$NF}'", returnStdout: true)
                     
                     steps.echo """
                     ${dir}
