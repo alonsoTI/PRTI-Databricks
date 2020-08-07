@@ -72,7 +72,7 @@ try {
                     dir2 = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print \$2 \$NF}'", returnStdout: true)
                     steps.echo """${dir2.error_code}"""
 
-                    
+                    /*
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
                     """
