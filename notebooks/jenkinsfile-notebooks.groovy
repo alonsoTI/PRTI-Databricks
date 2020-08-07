@@ -56,19 +56,19 @@ try {
         steps.echo """
         ******** Importando notebooks en Databricks DEV********
         """
-  
+        def props = readJSON file: 'notebooks/notebook.json' returnPojo: true
+                    props.each{ nombre, ruta ->
+                        steps.echo """
+                        Cargando notebook ${nombre.nombre} a la ruta ${ruta}
+                        """
+        }
+
         steps.withCredentials([
                 [$class: "StringBinding", credentialsId: "tenantId", variable: "tenantId" ],
                 [$class: "StringBinding", credentialsId: "databricksToken", variable: "databricksToken" ]
             ]){
                 try{
                     
-                     
-                     def props = readJSON file: 'notebooks/notebook.json'
-                    steps.echo """
-                    ${props.nombre}
-                    ${props.ruta}
-                    """
 
                 }catch(Exception e){
                 throw e;
