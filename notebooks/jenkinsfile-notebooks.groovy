@@ -67,11 +67,17 @@ try {
                     ******** Validando existencia de directorios********
                     """
 
-                    def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON test.py /test/test.py | awk '{ print \$2 \$NF}'", returnStdout: true)
+                    def dir = sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace import -l PYTHON test.py /test/test.py | awk '{ print \$2 \$NF}'", returnStdout: true)
+                    
+                    steps.echo """
+                    ${dir}
+                    """
+
+                    /*
                     steps.echo """${dir}"""
                     def dir2 = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list /hola | awk '{ print \$2 \$NF}'", returnStdout: true)
                     steps.echo """${dir2}"""
-
+                    */
                     /*
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
