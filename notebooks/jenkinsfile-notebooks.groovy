@@ -59,7 +59,7 @@ try {
         def props = readJSON file: 'notebooks/notebook.json', returnPojo: true
                     props.each{ nombre, ruta ->
                         steps.echo """
-                        Cargando notebook ${nombre.nombre} a la ruta ${ruta}
+                        Cargando notebook ${nombre.nombre} a la ruta ${ruta.ruta}
                         """
         }
 
