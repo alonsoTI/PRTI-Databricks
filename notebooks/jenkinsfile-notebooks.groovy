@@ -1,5 +1,3 @@
-import groovy.json.JsonSlurper
-
 /* Project 4 letters. */ 
 def project                 = 'BMDL'
 def deploymentEnvironment   = 'dev'
@@ -66,9 +64,9 @@ try {
                 try{
                     
                      sh("cat notebooks/notebook.json")
-                     def inputFile = new File("notebooks/notebook.json")
-                     def InputJSON = new JsonSlurper().parseText(inputFile.text)
-                     InputJSON.each{ println it }
+                     def props = readJSON text: '{ "key": "value" }'
+                        assert props['key'] == 'value'
+                        assert props.key == 'value'
 
                 }catch(Exception e){
                 throw e;
