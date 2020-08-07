@@ -30,8 +30,7 @@ try {
         steps.echo """
         ******** Read Notebooks  ********
         """
-        steps.sh "cd notebooks"
-        steps.sh "ls"
+        steps.sh "ls notebooks"
       }
 
       stage('QA Analisys') {
@@ -64,7 +63,7 @@ try {
             ]){
                 try{
                     
-                     CLUSTER = readJSON text: sh("cat notebook.json")
+                     CLUSTER = readJSON text: sh("cat notebooks/notebook.json")
 
                 }catch(Exception e){
                 throw e;
