@@ -32,6 +32,9 @@ try {
         ******** Read Notebooks  ********
         """
         steps.sh "ls notebooks"
+        sh("echo [DEFAULT] > $WORKSPACE/databricks.cfg")
+		        sh("echo host = ${databricksHost} >> $WORKSPACE/databricks.cfg")
+		        sh("echo token = ${databricksToken2} >> $WORKSPACE/databricks.cfg")
       }
 
       stage('QA Analisys') {
@@ -62,8 +65,7 @@ try {
             ]){
                 try{
                     
-                    databricksContainer = steps.sh(script:"docker run -d -it -v ${env.WORKSPACE}:/tmp/databricks -e DATABRICKS_HOST=${databricksHost} -e DATABRICKS_TOKEN=${env.databricksToken2} ${imageTag}",returnStdout:true).trim();
-                    steps.sh "docker exec ${databricksContainer} databricks workspace list";
+                    sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list")
 
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
