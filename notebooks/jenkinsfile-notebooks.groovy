@@ -62,11 +62,12 @@ try {
             ]){
                 try{
                     sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list")
-                    /*
+                    
                     steps.echo """
                     ******** Validando existencia de directorios********
                     """
-                    def dirs = readJSON file: 'notebooks/notebook.json', returnPojo: true
+                    try{
+                      def dirs = readJSON file: 'notebooks/notebook.json', returnPojo: true
                     props.each{ nombre ->
                         steps.echo """ Ruta:  ${nombre.ruta}"""
                         def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list ${nombre.ruta} | awk '{ print \$2 \$NF}'", returnStdout: true)
@@ -77,7 +78,9 @@ try {
                             steps.echo """ La ruta:  ${nombre.ruta} si existe"""
                         }
                     }
-                    */
+                    }catch(Exception e){
+                      steps.echo """ La ruta:  ${nombre.ruta} si existe"""
+                    }
 
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
