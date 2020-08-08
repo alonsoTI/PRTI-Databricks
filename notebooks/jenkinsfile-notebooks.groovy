@@ -66,21 +66,23 @@ try {
                     steps.echo """
                     ******** Validando existencia de directorios********
                     """
-                    try{
+                    
                     def dirs = readJSON file: 'notebooks/notebook.json', returnPojo: true
                     dirs.each{ nombre ->
                         steps.echo """ Ruta:  ${nombre.ruta}"""
+                        try{}
                         def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list ${nombre.ruta} | awk '{ print \$2 \$NF}'", returnStdout: true)
+                        steps.echo """ La ruta:  ${dir} si existe"""
+                        
                         if (dir.error_code == "RESOURCE_DOES_NOT_EXIST"){
                             steps.echo """ La ruta:  ${nombre.ruta} no existe, ejecutando creación: """
                             sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace mkdirs ${nombre.ruta}")
-                        }else{
-                            steps.echo """ La ruta:  ${nombre.ruta} si existe"""
                         }
+                      }catch (Exception e){
+                         steps.echo """ La ruta:  ${nombre.ruta} si existe"""
+                      }
                     }
-                    }catch(Exception e){
-                      steps.echo """ La ruta:  ${nombre.ruta} si existe"""
-                    }
+                    
 
                     steps.echo """
                     ******** Importando notebooks en Databricks DEV********
