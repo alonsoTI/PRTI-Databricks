@@ -67,8 +67,8 @@ try {
                     ******** Validando existencia de directorios********
                     """
                     try{
-                      def dirs = readJSON file: 'notebooks/notebook.json', returnPojo: true
-                    props.each{ nombre ->
+                    def dirs = readJSON file: 'notebooks/notebook.json', returnPojo: true
+                    dirs.each{ nombre ->
                         steps.echo """ Ruta:  ${nombre.ruta}"""
                         def dir = readJSON text: sh(script: "DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks workspace list ${nombre.ruta} | awk '{ print \$2 \$NF}'", returnStdout: true)
                         if (dir.error_code == "RESOURCE_DOES_NOT_EXIST"){
