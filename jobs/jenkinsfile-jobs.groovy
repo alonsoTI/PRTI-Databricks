@@ -61,12 +61,14 @@ try {
             ]){
                 def input = readJSON file: 'util/job.json', returnPojo: true
 
-                input.name = "test2";
-                input.existing_cluster_id = "0810-045345-zebus756"
+                input.name = "${env.name_job}";
+                input.existing_cluster_id = "${existing_cluster_id}"
+                input.schedule.quartz_cron_expression = "${env.cron_expression}"
+                input.notebook_task.notebook_path = "${path_notebook}"
 
                 writeJSON file: './job.json', json: input
 
-                sh("cat ./job.json");
+
 
             }
       }
