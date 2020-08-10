@@ -59,7 +59,7 @@ try {
                 [$class: "StringBinding", credentialsId: "tenantId", variable: "tenantId" ],
                 [$class: "StringBinding", credentialsId: "databricksToken", variable: "databricksToken" ]
             ]){
-                def input = readJSON file: '../util/job.json', returnPojo: true
+                def input = readJSON file: 'util/job.json', returnPojo: true
 
                 input.name = "test2";
                 input.existing_cluster_id = "0810-045345-zebus756"
