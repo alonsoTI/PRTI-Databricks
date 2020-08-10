@@ -68,7 +68,7 @@ try {
 
                 writeJSON file: './job.json', json: input
 
-
+                sh("cat ./job.json");
 
             }
       }
