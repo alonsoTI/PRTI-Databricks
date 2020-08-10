@@ -65,10 +65,9 @@ try {
                 input.existing_cluster_id = "${existing_cluster_id}"
                 input.schedule.quartz_cron_expression = "${env.cron_expression}"
                 input.notebook_task.notebook_path = "${path_notebook}"
-
                 writeJSON file: './job.json', json: input
 
-                sh("cat ./job.json");
+                sh("DATABRICKS_CONFIG_FILE=$WORKSPACE/databricks.cfg databricks jobs create --json-file job.json")
 
             }
       }
