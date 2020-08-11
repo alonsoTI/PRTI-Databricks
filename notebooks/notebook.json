@@ -1,14 +1,14 @@
 [
     {
         "nombre": "Crear.py",
-        "ruta": "/Shared/data2020"
+        "ruta": "/Shared/data2020/PRTI"
     },
     {
         "nombre": "datos.py",
-        "ruta": "/Shared/data2020"
+        "ruta": "/Shared/data2020/PRTI"
     },
     {
         "nombre": "Eliminar.py",
-        "ruta": "/Shared/data2020"
+        "ruta": "/Shared/data2020/PRTI"
     }
 ]
